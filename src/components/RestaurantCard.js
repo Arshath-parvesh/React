@@ -8,33 +8,35 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 const RestaurantCard = (props) => {
   const { resData } = props;
-  const { name, areaName, costForTwo, avgRating, cuisines, cloudinaryImageId } =
-    resData.info;
-  const { slaString } = resData.info.sla;
+  const { name, price, rating, categories, image_url } =
+    resData;
+    const location = resData.location.city;
+//   const { slaString } = resData?.info?.sla;
+const cuisines = categories.map(cate => cate.title).join(", ");
   return (
       <div className="res-card">
-        <div className="logo-container"><img
+        <div className="img-container"><img
           className="res-logo"
           alt="res-logo"
-          src={CDN_URL + cloudinaryImageId}
+          src={image_url}
         /></div>
         <div className="title">
           <h3>{name}</h3>
           <h4 className="rating-time">
-            <FontAwesomeIcon icon={faStar} /> {avgRating}
+            <FontAwesomeIcon icon={faStar} /> {rating}
           </h4>
         </div>
         <div className="cuisines">
-          <h4>{cuisines.join(", ")}</h4>
-          <h4>{costForTwo}</h4>
+          <h4>{cuisines}</h4>
+          {/* <h4>{price}</h4> */}
         </div>
         <div className="location">
           <h4>
-            {areaName} <FontAwesomeIcon icon={faMapMarkerAlt} />
+            {location} <FontAwesomeIcon icon={faMapMarkerAlt} />
           </h4>
-          <h4>
+          {/* <h4>
             {slaString} <FontAwesomeIcon icon={faStopwatch} />{" "}
-          </h4>
+          </h4> */}
         </div>
       </div>
   );
