@@ -1,35 +1,31 @@
-import { useEffect, useState } from "react";
-import { TOKEN } from "../utils/constant";
 import Loading from "./Loading";
 import { useParams } from "react-router-dom";
-import { MENU_API } from "../utils/constant";
-
+import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestaurantCard from "./RestaurantCard";
+import RestaurantCategories from "./RestaurantCategories";
+import { useState } from "react";
 
 function RestaurantMenu() {
-    const [resInfo,setResInfo] = useState(null);
-    const {resId} = useParams();
-    useEffect(()=>{
-        fetchMenu();
-    },[]);
-    const fetchMenu = async () => {
-        const response = await fetch(MENU_API+resId,{method : 'GET',headers:{'Authorization':`Bearer ${TOKEN}`,'Content-Type':'application/json'}});
-        const result = await response.json();
-        console.log(result);
-        setResInfo(result);
-    }
-
-    const {name,rating,isClosed,price,phone,location,categories} = resInfo || {};
-    const address = location?.display_address.join(", ");
-    const cuisines = categories?.map(cate => cate.title).join(", ");
-  return resInfo == null ? <Loading /> : (
-    <div>
-        <h1>{name}</h1>
-        <h1>{rating}</h1>
-        <h2>{cuisines}</h2>
-        <h3>{address}</h3>
-        <h4>{isClosed} {price} {phone}</h4>
+  const { resId } = useParams();
+  const resInfo = useRestaurantMenu(resId);
+  const { name, rating, isClosed, price, phone, location, categories } = resInfo || {};
+  const address = location?.display_address.join(", ");
+  const cuisines = categories?.map((cate) => cate.title).join(", ");
+  const [showIndex, setShowIindex] = useState(0);
+  return resInfo == null ? (
+    <Loading />
+  ) : (
+    <div className="restaurant-menu">
+      <h1 className="res-name">{name}</h1>
+      {/* <h1 className="rex-rating">{rating}</h1> */}
+      <h2 className="res-cuisines">{cuisines} - {price}</h2>
+      {/* <h3 className="res-address">{address}</h3> */}
+      {/* <h4 className="res-con">  {phone} </h4> */}
+      <p className="caterories">
+        {categories.map((category,index) => (<RestaurantCategories key = {resInfo.id+Math.random()} category={category} showItem={index == showIndex} setShowIindex={() =>setShowIindex(index)}/>))}
+      </p>
     </div>
-  )
+  );
 }
 
 export default RestaurantMenu;

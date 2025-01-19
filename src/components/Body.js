@@ -1,12 +1,15 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard ,{recommentedRes}from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import { TOKEN, YELP_API } from "../utils/constant";
 import Loading from "./Loading";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 const Body = () => {
     const [listOfRestaurant, setListOfRestaurant] = useState([]);
     const [searchText,setSearchText] = useState("");
     const [filteredRestaurant , setFilteredRestaurant] = useState([]);
+
+    const RecommentedRestaurant = recommentedRes(RestaurantCard);
 
     useEffect(()=>{fetchData()},[]);
     const fetchData = async () => {
@@ -16,6 +19,7 @@ const Body = () => {
         setFilteredRestaurant(result.businesses);
     }
 
+    if(!useOnlineStatus()) return <h1>Looks like you are offline kindly check</h1>
     return listOfRestaurant == 0 ? (<Loading />) : (
         <div className="body">
             <div className="filter">
@@ -36,7 +40,8 @@ const Body = () => {
             <div className="res-container">
                 {filteredRestaurant.map((restaurant) => (
                     <Link key = {restaurant.id} to={"/restaurant/"+restaurant.alias}>
-                    <RestaurantCard resData = {restaurant}/></Link>
+                        {restaurant.rating >= 4.4 ? (<RecommentedRestaurant resData = {restaurant}/>) : (<RestaurantCard resData = {restaurant}/>) }
+                    </Link>
                 ))}                
             </div>
         </div>

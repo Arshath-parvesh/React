@@ -49,17 +49,26 @@
 .nav-item ul li {
   margin-left: 20px;
   text-decoration: none;
-  color: #333;
   font-size: 1rem;
+  color: #333;
   padding: 10px 15px;
   transition: background-color 0.3s ease;
 }
+
+.nav-item ul li a {
+    text-decoration: none;
+    color: #333;
+  }
 
 .nav-item ul li:hover {
   background-color: #007bff;
   color: white;
   border-radius: 5px;
 }
+
+.nav-item ul li a:hover {
+    color: white;
+  }
 
 .rating-time {
     color: #fff;
@@ -148,4 +157,49 @@
 .auth {
     cursor: pointer;
     background-color:#007bff;
+}
+
+.online {
+    color: green !important;
+}
+.offline{
+    color: red !important;
+}
+
+.label {
+    position: absolute;
+    padding: 6px;
+    margin: 24px 16px;
+    background-color: black;
+    color: white;
+    z-index: 2000;
+}
+
+.restaurant-menu {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.res-categories {
+    width: 100%;
+    background-color: rgb(241, 240, 240);
+    padding: 8px;
+    margin: 4px;
+    box-shadow:  3px 4px 5px 0px #0003, 0 6px 20px #00000030;
+    /* display: flex;
+    justify-content: space-between; */
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.caterories {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+h1,h2,h3,h4,h5,h6,p,a {
+    text-decoration: none;
 }
